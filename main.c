@@ -27,40 +27,40 @@ void* threadFunction(void* tid){
     if(n%t == 0){
         double local_a = a + (int)(size_t)tid*h*(n/t);
         double local_b = b - ((t-1)-(int)(size_t)tid)*h*(n/t);
-        double area_total = (f1(local_a)+f1(local_b))/2;
+        double area_total = (f2(local_a)+f2(local_b))/2;
         double x_i;
         for(int i=1; i<n/t; i++){
             x_i = local_a+i*h;
-            area_total += f1(x_i);
+            area_total += f2(x_i);
         }
         area_total *= h;
         solucoes[(int)(size_t)tid] = area_total;
-        printf("solução da thread #%d = %.2f\n", (int)(size_t)tid, area_total);
+        printf("solução da thread #%d = %.2e\n", (int)(size_t)tid, area_total);
     }else{
         if((int)(size_t)tid == 0){
             double local_a = a + (int)(size_t)tid*h*(floor(n/t)+n%t);
             double local_b = b - ((t-1)-(int)(size_t)tid)*h*(floor(n/t)+n%t);
-            double area_total = (f1(local_a)+f1(local_b))/2;
+            double area_total = (f2(local_a)+f2(local_b))/2;
             double x_i;
             for(int i=1; i<(floor(n/t)+n%t); i++){
                 x_i = local_a+i*h;
-                area_total += f1(x_i);
+                area_total += f2(x_i);
             }
             area_total *= h;
             solucoes[(int)(size_t)tid] = area_total;
-            printf("solução da thread #%d = %.2f\n", (int)(size_t)tid, area_total);
+            printf("solução da thread #%d = %.2e\n", (int)(size_t)tid, area_total);
         }else{
             double local_a = a + (int)(size_t)tid*h*(floor(n/t));
             double local_b = b - ((t-1)-(int)(size_t)tid)*h*(floor(n/t));
-            double area_total = (f1(local_a)+f1(local_b))/2;
+            double area_total = (f2(local_a)+f2(local_b))/2;
             double x_i;
             for(int i=1; i<floor(n/t); i++){
                 x_i = local_a+i*h;
-                area_total += f1(x_i);
+                area_total += f2(x_i);
             }
             area_total *= h;
             solucoes[(int)(size_t)tid] = area_total;
-            printf("solução da thread #%d = %.2f\n", (int)(size_t)tid, area_total);
+            printf("solução da thread #%d = %.2e\n", (int)(size_t)tid, area_total);
         }
     }
 }
@@ -92,7 +92,7 @@ int main(int argc, char* argv[]){
     double solucaoFinal = 0;
     for(i = 0; i< t; i++)
         solucaoFinal += solucoes[i];
-    printf("Integral definida de f no intervalo de %.2f, %.2f = %.2f\n", a, b, solucaoFinal);
+    printf("Integral definida de f no intervalo de %.2e, %.2e = %.2e\n", a, b, solucaoFinal);
 
     return 0;
 }
